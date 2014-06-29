@@ -1,21 +1,20 @@
 package com.bios21.frankencraft.block;
 
-import net.minecraft.block.Block;
+import com.bios21.frankencraft.Frankencraft;
+import com.bios21.frankencraft.reference.Reference;
+import com.bios21.frankencraft.utils.FcWorldWrapper;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
-
-import com.bios21.frankencraft.FrankencraftMain;
-import com.bios21.frankencraft.utils.FcWorldWrapper;
 
 public class MultiBlockGiantPoil extends BlockContainer {
 
 	public MultiBlockGiantPoil() {
 		super(Material.ground);
 		this.setBlockName("giantPoil");
-		this.setBlockTextureName(FrankencraftMain.MODID + ":" + "giantPoil");
-		this.setCreativeTab(FrankencraftMain.creativeTabsFrankencraft);
+		this.setBlockTextureName(Reference.MOD_ID + ":" + "giantPoil");
+		this.setCreativeTab(Frankencraft.creativeTabsFrankencraft);
 		
 	}
 	

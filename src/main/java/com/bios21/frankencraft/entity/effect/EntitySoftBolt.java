@@ -1,14 +1,13 @@
 package com.bios21.frankencraft.entity.effect;
 
 import com.bios21.frankencraft.block.BlockPoilBlock;
-
 import net.minecraft.block.Block;
-import net.minecraft.entity.effect.EntityLightningBolt;
+import net.minecraft.entity.effect.EntityWeatherEffect;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
-public class EntitySoftBolt extends EntityLightningBolt {
+public class EntitySoftBolt extends EntityWeatherEffect {
 	/**
 	 * Declares which state the lightning bolt is in. Whether it's in the air,
 	 * hit the ground, etc.
@@ -26,41 +25,48 @@ public class EntitySoftBolt extends EntityLightningBolt {
 	private int boltLivingTime;
 
 	public EntitySoftBolt(World world, double x, double y, double z) {
-		super(world, x, y, z);
+		super(world);
 		this.setLocationAndAngles(x, y, z, 0.0F, 0.0F);
 		this.lightningState = 2;
 		this.boltVertex = this.rand.nextLong();
 		this.boltLivingTime = this.rand.nextInt(3) + 1;
-	}
 
-	/**
+        if (!this.worldObj.isRemote) {
+            int i = MathHelper.floor_double(this.posX);
+            int j = MathHelper.floor_double(this.posY);
+            int k = MathHelper.floor_double(this.posZ);
+            Block block = this.worldObj.getBlock(i, j - 1, k);
+
+            if (block instanceof BlockPoilBlock) {
+                ((BlockPoilBlock) block).onBlockElectrocuted(this.worldObj, i, j - 1, k);
+            }
+        }
+}
+
+    @Override
+    protected void entityInit() {
+    }
+
+    /**
 	 * Called to update the entity's position/logic.
 	 */
 	public void onUpdate() {
-		super.onUpdate();
+		super.onUpdate(); // squiz damage effects from lightning bolt, but keep rendering and updating
 
 		if (this.lightningState == 2) {
 			this.worldObj.playSoundEffect(this.posX, this.posY, this.posZ,
-					"ambient.weather.thunder", 10000.0F,
+					"ambient.weather.thunder", 1.0F,
 					0.8F + this.rand.nextFloat() * 0.2F);
-			this.worldObj
-					.playSoundEffect(this.posX, this.posY, this.posZ,
-							"random.explode", 2.0F,
-							0.5F + this.rand.nextFloat() * 0.2F);
+//			this.worldObj
+//					.playSoundEffect(this.posX, this.posY, this.posZ,
+//							"random.explode", 0.5F,
+//							0.5F + this.rand.nextFloat() * 0.2F);
 		}
 
 		--this.lightningState;
 
 		if (this.lightningState < 0) {
 			if (this.boltLivingTime == 0) {
-				int i = MathHelper.floor_double(this.posX);
-				int j = MathHelper.floor_double(this.posY);
-				int k = MathHelper.floor_double(this.posZ);
-				Block block = this.worldObj.getBlock(i, j - 1, k);
-				
-				if (block instanceof BlockPoilBlock) {
-					((BlockPoilBlock)block).onBlockElectrocuted(this.worldObj, i, j - 1, k);
-				}
 				this.setDead();
 			} else if (this.lightningState < -this.rand.nextInt(10)) {
 				--this.boltLivingTime;
@@ -76,18 +82,13 @@ public class EntitySoftBolt extends EntityLightningBolt {
 		}
 	}
 
-	protected void entityInit() {
-	}
+    @Override
+    protected void readEntityFromNBT(NBTTagCompound var1) {
 
-	/**
-	 * (abstract) Protected helper method to read subclass entity data from NBT.
-	 */
-	protected void readEntityFromNBT(NBTTagCompound par1NBTTagCompound) {
-	}
+    }
 
-	/**
-	 * (abstract) Protected helper method to write subclass entity data to NBT.
-	 */
-	protected void writeEntityToNBT(NBTTagCompound par1NBTTagCompound) {
-	}
+    @Override
+    protected void writeEntityToNBT(NBTTagCompound var1) {
+
+    }
 }
