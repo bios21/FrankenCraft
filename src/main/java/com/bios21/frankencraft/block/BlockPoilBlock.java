@@ -1,24 +1,18 @@
 package com.bios21.frankencraft.block;
 
-import com.bios21.frankencraft.Frankencraft;
 import com.bios21.frankencraft.entity.effect.EntitySoftBolt;
 import com.bios21.frankencraft.reference.Reference;
 import cpw.mods.fml.common.FMLLog;
-import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import org.apache.logging.log4j.Level;
 
-public class BlockPoilBlock extends Block {
+public class BlockPoilBlock extends BaseBlockFC {
 
     private boolean striked = false;
 
 	public BlockPoilBlock() {
-		super(Material.ground);
-		this.setBlockName("poilBlock");
-		this.setBlockTextureName(Reference.MOD_ID + ":" + "poilBlock");
-		this.setCreativeTab(Frankencraft.creativeTabsFrankencraft);
+		this.setBlockName(Reference.Blocks.poilBlock);
 		this.setHardness(1.0f);
 	}
 	
@@ -35,8 +29,6 @@ public class BlockPoilBlock extends Block {
 		
 		return true;
 	}
-
-
 	
 	public boolean onBlockElectrocuted(World world, int x, int y, int z) {
 		System.out.println("STRIKE");

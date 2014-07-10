@@ -1,6 +1,6 @@
 package com.bios21.frankencraft.creativetab;
 
-import com.bios21.frankencraft.Frankencraft;
+import com.bios21.frankencraft.init.BlocksFC;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.creativetab.CreativeTabs;
@@ -15,7 +15,7 @@ public class CreativeTabsFrankencraft extends CreativeTabs {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public Item getTabIconItem() {
-		return Item.getItemFromBlock(Frankencraft.blockPoil);
+		return Item.getItemFromBlock(BlocksFC.blockPoilBlock);
 	}
 
 }
